@@ -6,7 +6,6 @@ var random = require('random-gen');
 var RxRabbit = require('./RxRabbit');
 
 var url = 'amqp://192.168.99.102:35672';
-// var url = 'amqp://yT404t4g:7Qow8sDG@nebulamq.quanta-camp.com:5672/IOT-MGR-DEV';
 
 // =======================================
 
