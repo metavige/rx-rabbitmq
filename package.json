@@ -1,0 +1,25 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel-node test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.11.1",
+    "lodash-es": "^4.11.1",
+    "rabbit.js": "^0.4.4",
+    "random-gen": "^0.1.0",
+    "rx": "^4.1.0",
+    "rx-node": "^1.0.2",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.7",
+    "chai": "latest",
+    "mocha": "^2.4.5"
+  }
+}
