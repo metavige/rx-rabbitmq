@@ -3,21 +3,21 @@
  */
 
 var RxRabbit = require('./RxRabbit');
-var events = require('events')
-var Divider = function(){
-  events.EventEmitter.call(this)
-};
-require('util').inherits(Divider, events.EventEmitter);
-var divider = new Divider();
-divider.on('error', function (err) {
-  console.log('global error: ', err);
+
+process.on('unhandledRejection', function(reason, p){
+  console.log("---Possibly Unhandled Rejection at: Promise ", p, " reason: ", reason);
+  // application specific logging here
 });
 
-var url = 'amqp://192.168.99.102:35672';
+process.on('uncaughtException', function (err) {
+  console.log('---uncaughtException', err);
+})
+;
+var url = 'amqp://localhost';
 
 var pub = new RxRabbit.TopicPub({ uri: url, SocketName: 'test.topic', isReconnect: true });
 
-var count = 10;
+// var count = 10;
 var ticket;
 function SendData () {
 

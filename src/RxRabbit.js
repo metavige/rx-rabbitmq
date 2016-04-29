@@ -101,7 +101,12 @@ var rxRabbit;
       // 錯誤事件 stream
       var contextErrorStream = Rx.Observable.fromEvent(context, 'error')
         .flatMap(function (val) {
-          logger.error('MQ 連線發生錯誤:', val.code, uri);
+          var code = val.code;
+          if (code == undefined) {
+            // logger.debug(val);
+            code = 'ERROR_UNDEFINED';
+          }
+          logger.error('MQ 連線發生錯誤:', '[' + code + ']', val.message);
           return Rx.Observable.throw(val);
         });
       // 如果是 Ready 事件，只需要回傳 ready 事件的參數就好
@@ -110,13 +115,6 @@ var rxRabbit;
           logger.debug('rabbitjs context ready.....');
           return context;
         });
-
-      // var contextCloseStream = Rx.Observable.fromEvent(context, 'close')
-      //   .flatMap(function (val) {
-      //     logger.debug('context closed....');
-      //     // return RxRabbitBase.createContextStream(__instance);
-      //     return Rx.Observable.throw(new Error('closed'));
-      //   });
 
       // 合併 ready / error 事件，變成同一個 Stream
       return contextErrorStream
@@ -132,19 +130,7 @@ var rxRabbit;
     RxRabbitBase.prototype.connectContext = function () {
       var self = this;
       var contextStream = RxRabbitBase.createContextStream(this);
-      // var uri = self.opts.uri;
-      // var context = rabbit.createContext(uri);
-      // self.__context = context;
-      // // 錯誤事件 stream
-      // var contextErrorStream = Rx.Observable.fromEvent(context, 'error')
-      //   .flatMap(function (val) {
-      //     logger.error('MQ 連線發生錯誤:', val.code, uri);
-      //     return Rx.Observable.throw(val);
-      //   });
-      // // 如果是 Ready 事件，只需要回傳 ready 事件的參數就好
-      // var contextReadyStream = Rx.Observable.fromEvent(context, 'ready');
-      // // 合併 ready / error 事件，變成同一個 Stream
-      // var contextStream = contextErrorStream.merge(contextReadyStream);
+      
       // 以下是建立 Socket Stream
       return contextStream.map(
         function (context) {

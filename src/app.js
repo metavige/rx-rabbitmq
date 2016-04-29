@@ -4,8 +4,6 @@ var winston = require('winston');
 // var EventEmitter = require('events').EventEmitter;
 var MessageQueueAdapter = require('./mq');
 var random = require('random-gen');
-var Rx = require('rx');
-// var RxNode = require('rx-node');
 
 var logger = new winston.Logger({
   transports: [
@@ -23,7 +21,7 @@ var logger = new winston.Logger({
   ]
 });
 
-var url = 'amqp://192.168.99.102:35672';
+var url = 'amqp://localhost';
 // var rabbitContext = null;
 var ticket = null;
 

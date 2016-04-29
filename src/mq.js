@@ -72,14 +72,17 @@ var MessageQueueAdapter = function (amqp_url, name) {
           // 建立連線有問題，需要重新連線
           setTimeout(start, 1000);
         }
-        if (err.code === 'ETIMEDOUT') {
+        else if (err.code === 'ETIMEDOUT') {
           // 連線 TIMEOUT
           logger.error('TIMEOUT, 等一段時間在重新嘗試..... ');
           setTimeout(start, 5000);
         }
-        if (err.code === 'EHOSTDOWN') {
+        else if (err.code === 'EHOSTDOWN') {
           logger.error('Server 關閉，已經連不上了..... ');
           setTimeout(start, 30000);
+        }
+        else {
+          setTimeout(start, 1000);
         }
 
         // 如果外部有設定 error 事件，觸發事件
@@ -101,6 +104,9 @@ var MessageQueueAdapter = function (amqp_url, name) {
         // 當連線成功之後，會呼叫這個方法，在這邊可以做之後的設定
         self.emit('connected', context);
       });
+      context.on('end', function () {
+        logger.debug('context end', arguments);
+      })
     } catch (err) {
       logger.error('start error: ', err);
     }
